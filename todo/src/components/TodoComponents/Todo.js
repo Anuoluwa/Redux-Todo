@@ -1,4 +1,29 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import {deleteTodo} from '../../state/actionDispatchers';
+import { connect } from 'react-redux';
+import styled from 'styled-components';
+
+
+const StyledQuote = styled.div`
+  width: 50%;
+  font-size: 1.8rem;
+  margin: 3px auto;
+  padding: 1px 8px 2.5px 100px;
+  background-color: ${pr => (pr.highlight ? '#fffbc4' : '#f4f4f4')};
+  border: ${pr => (pr.redBorder ? '2px solid red' : 'initial')};
+  
+
+  p {
+    font-weight: bolder;
+    display: inline-block;
+  }
+
+  button{
+      padding: 1.5px 1rem;
+      margin: 0 0 0 1rem;
+  }
+
+`;
 
 export class Todo extends Component {
     todoStyle = () => {
@@ -7,15 +32,16 @@ export class Todo extends Component {
         }
     }
     render() {
-        const {id, task} = this.props.todo;
+        const {task, id} = this.props.todo;
         return (
-            <div style={this.todoStyle()} onClick={this.props.markComplete.bind(this, id)}>
+            <StyledQuote>
                 <p> 
                 { task } 
                 </p>
-            </div>
+                <button onClick={() => this.props.deleteTodo(id)}>Delete</button>
+            </StyledQuote>
         )
     }
 }
 
-export default Todo
+export default connect(null, { deleteTodo })(Todo);
